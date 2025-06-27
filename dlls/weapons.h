@@ -487,8 +487,7 @@ enum glock_e
 	GLOCK_RELOAD_NOT_EMPTY,
 	GLOCK_DRAW,
 	GLOCK_HOLSTER,
-	GLOCK_ADD_SILENCER,
-	GLOCK_REMOVE_SILENCER
+	GLOCK_ADD_SILENCER
 };
 
 class CGlock : public CBasePlayerWeapon
@@ -965,6 +964,7 @@ public:
 	void EndAttack();
 	void Attack();
 	void PrimaryAttack() override;
+	void SecondaryAttack() override;
 	bool ShouldWeaponIdle() override { return true; }
 	void WeaponIdle() override;
 
@@ -995,9 +995,10 @@ public:
 
 	unsigned short m_usEgonStop;
 
+	EGON_FIREMODE m_fireMode;
+
 private:
 	float m_shootTime;
-	EGON_FIREMODE m_fireMode;
 	float m_shakeTime;
 	bool m_deployed;
 

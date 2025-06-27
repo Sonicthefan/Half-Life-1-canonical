@@ -50,7 +50,6 @@ void CGlock::Precache()
 	PRECACHE_SOUND("weapons/pl_gun1.wav"); //silenced handgun
 	PRECACHE_SOUND("weapons/pl_gun2.wav"); //silenced handgun
 	PRECACHE_SOUND("weapons/pl_gun3.wav"); //handgun
-	PRECACHE_SOUND("weapons/glock_silencer.wav");//handgun
 
 	m_usFireGlock1 = PRECACHE_EVENT(1, "events/glock1.sc");
 	m_usFireGlock2 = PRECACHE_EVENT(1, "events/glock2.sc");
@@ -79,26 +78,9 @@ bool CGlock::Deploy()
 	return DefaultDeploy("models/v_9mmhandgun.mdl", "models/p_9mmhandgun.mdl", GLOCK_DRAW, "onehanded");
 }
 
-void CGlock::SecondaryAttack(void)
+void CGlock::SecondaryAttack()
 {
-	if (pev->body == 0)
-	{
-		pev->body = 1;
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_WEAPON, "weapons/glock_silencer.wav", RANDOM_FLOAT(0.9, 1.0), ATTN_NORM);
-		m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 3.4;
-		m_flTimeWeaponIdle = gpGlobals->time + 3.4;
-		m_flNextSecondaryAttack = m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 3.4;
-		SendWeaponAnim(GLOCK_ADD_SILENCER);
-	}
-	else
-	{
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_WEAPON, "weapons/glock_silencer.wav", RANDOM_FLOAT(0.9, 1.0), ATTN_NORM);
-		m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 3.4;
-		m_flTimeWeaponIdle = gpGlobals->time + 3.4;
-		m_flNextSecondaryAttack = m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 3.4;
-		SendWeaponAnim(GLOCK_REMOVE_SILENCER);
-		pev->body = 0;
-	}
+	GlockFire(0.1, 0.2, false);
 }
 
 void CGlock::PrimaryAttack()
